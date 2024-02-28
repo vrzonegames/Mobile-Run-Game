@@ -30,6 +30,7 @@ function jump() {
         if (position === 0) {
           clearInterval(fallInterval);
           isJumping = false;
+          checkScore();
         } else {
           position -= 5;
           player.style.bottom = position + 'px';
@@ -38,7 +39,6 @@ function jump() {
     } else {
       position += 5;
       player.style.bottom = position + 'px';
-      checkScore(); // Check score on each frame of jump
     }
   }, 20);
 }
@@ -50,7 +50,6 @@ function checkScore() {
       obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
       player.style.bottom === '0px'
     ) {
-      // If player jumps over the obstacle, increase score
       score++;
       scoreDisplay.innerText = 'Score: ' + score;
     }
