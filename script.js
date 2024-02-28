@@ -48,7 +48,8 @@ function checkScore() {
     if (
       obstacle.offsetLeft <= player.offsetLeft &&
       obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
-      player.style.bottom === '0px'
+      player.style.bottom === '0px' &&
+      !isJumping
     ) {
       score++;
       scoreDisplay.innerText = 'Score: ' + score;
