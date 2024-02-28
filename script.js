@@ -2,6 +2,7 @@ const player = document.getElementById('player');
 const game = document.getElementById('game');
 const scoreDisplay = document.getElementById('score');
 let score = 0;
+let scoreInterval;
 
 let isJumping = false;
 let isGameOver = false;
@@ -51,8 +52,10 @@ function moveObstacle(obstacle) {
       obstacles = obstacles.filter(item => item !== obstacle);
       createObstacle();
     } else if (position > 0 && position < 10 && player.style.bottom === '0px') {
-      score++;
-      scoreDisplay.innerText = 'Score: ' + score;
+      if (!isGameOver) {
+        score++;
+        scoreDisplay.innerText = 'Score: ' + score;
+      }
     } else if (
       position <= 50 &&
       position >= 0 &&
@@ -82,6 +85,7 @@ function createObstacle() {
 
 function endGame() {
   isGameOver = true;
+  clearInterval(scoreInterval); // Stop the score from updating
   alert('Game Over! Your score: ' + score);
   resetGame();
 }
@@ -96,5 +100,12 @@ function resetGame() {
   player.style.bottom = '0px';
   createObstacle();
 }
+
+scoreInterval = setInterval(() => {
+  if (!isGameOver) {
+    score++;
+    scoreDisplay.innerText = 'Score: ' + score;
+  }
+}, 1000);
 
 createObstacle();
