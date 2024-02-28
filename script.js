@@ -45,18 +45,17 @@ function jump() {
 
 function checkScore() {
   obstacles.forEach(obstacle => {
-    const obstacleRight = obstacle.offsetLeft + obstacle.offsetWidth;
-    const playerRight = player.offsetLeft + player.offsetWidth;
     if (
-      obstacle.offsetLeft <= player.offsetLeft &&
-      obstacleRight >= playerRight &&
+      player.offsetLeft >= obstacle.offsetLeft + obstacle.offsetWidth &&
       player.style.bottom === '0px'
     ) {
       score++;
       scoreDisplay.innerText = 'Score: ' + score;
+      console.log('Score Increased');
     }
   });
 }
+
 
 
 function moveObstacle(obstacle) {
