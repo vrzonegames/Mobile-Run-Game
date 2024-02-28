@@ -30,8 +30,6 @@ function jump() {
         if (position === 0) {
           clearInterval(fallInterval);
           isJumping = false;
-          // Check for score when the player lands after jumping
-          checkScore();
         } else {
           position -= 5;
           player.style.bottom = position + 'px';
@@ -42,14 +40,6 @@ function jump() {
       player.style.bottom = position + 'px';
     }
   }, 20);
-}
-
-function checkScore() {
-  // Increment score only when player is on the ground and avoiding obstacles
-  if (!isGameOver) {
-    score++;
-    scoreDisplay.innerText = 'Score: ' + score;
-  }
 }
 
 function moveObstacle(obstacle) {
@@ -66,6 +56,16 @@ function moveObstacle(obstacle) {
       obstacle.offsetLeft <= player.offsetLeft + player.offsetWidth &&
       obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
       player.style.bottom === '0px'
+    ) {
+      // Increment score only when player successfully avoids an obstacle on the ground
+      score++;
+      scoreDisplay.innerText = 'Score: ' + score;
+    } else if (
+      position <= 50 &&
+      position >= 0 &&
+      obstacle.offsetLeft <= player.offsetLeft + player.offsetWidth &&
+      obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
+      player.style.bottom !== '0px'
     ) {
       clearInterval(moveInterval);
       endGame();
