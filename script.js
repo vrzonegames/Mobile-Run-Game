@@ -2,7 +2,6 @@ const player = document.getElementById('player');
 const game = document.getElementById('game');
 const scoreDisplay = document.getElementById('score');
 let score = 0;
-let scoreInterval;
 
 let isJumping = false;
 let isGameOver = false;
@@ -39,23 +38,33 @@ function jump() {
     } else {
       position += 5;
       player.style.bottom = position + 'px';
+      if (position === 100) {
+        checkScore();
+      }
     }
   }, 20);
 }
 
+function checkScore() {
+  // Increment score only when player is on the ground and avoiding obstacles
+  if (!isGameOver) {
+    score++;
+    scoreDisplay.innerText = 'Score: ' + score;
+  }
+}
+
 function moveObstacle(obstacle) {
   let position = 100;
+  let passed = false; // Flag to track if the obstacle has already been passed
   const moveInterval = setInterval(() => {
     if (position < -50) {
       clearInterval(moveInterval);
       game.removeChild(obstacle);
       obstacles = obstacles.filter(item => item !== obstacle);
       createObstacle();
-    } else if (position > 0 && position < 10 && player.style.bottom === '0px') {
-      if (!isGameOver) {
-        score++;
-        scoreDisplay.innerText = 'Score: ' + score;
-      }
+    } else if (position > 0 && position < 10 && player.style.bottom === '0px' && !passed) {
+      passed = true; // Set the flag to true when the obstacle is passed while player is on ground
+      checkScore();
     } else if (
       position <= 50 &&
       position >= 0 &&
@@ -85,7 +94,6 @@ function createObstacle() {
 
 function endGame() {
   isGameOver = true;
-  clearInterval(scoreInterval); // Stop the score from updating
   alert('Game Over! Your score: ' + score);
   resetGame();
 }
@@ -100,12 +108,5 @@ function resetGame() {
   player.style.bottom = '0px';
   createObstacle();
 }
-
-scoreInterval = setInterval(() => {
-  if (!isGameOver) {
-    score++;
-    scoreDisplay.innerText = 'Score: ' + score;
-  }
-}, 1000);
 
 createObstacle();
