@@ -38,8 +38,23 @@ function jump() {
     } else {
       position += 5;
       player.style.bottom = position + 'px';
+      checkScore(); // Check score on each frame of jump
     }
   }, 20);
+}
+
+function checkScore() {
+  obstacles.forEach(obstacle => {
+    if (
+      obstacle.offsetLeft <= player.offsetLeft &&
+      obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
+      player.style.bottom === '0px'
+    ) {
+      // If player jumps over the obstacle, increase score
+      score++;
+      scoreDisplay.innerText = 'Score: ' + score;
+    }
+  });
 }
 
 function moveObstacle(obstacle) {
@@ -50,16 +65,6 @@ function moveObstacle(obstacle) {
       game.removeChild(obstacle);
       obstacles = obstacles.filter(item => item !== obstacle);
       createObstacle();
-    } else if (
-      position <= 50 &&
-      position >= 0 &&
-      obstacle.offsetLeft <= player.offsetLeft + player.offsetWidth &&
-      obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
-      player.style.bottom === '0px'
-    ) {
-      // Increment score only when player successfully avoids an obstacle on the ground
-      score++;
-      scoreDisplay.innerText = 'Score: ' + score;
     } else if (
       position <= 50 &&
       position >= 0 &&
