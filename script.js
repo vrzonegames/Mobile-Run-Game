@@ -5,6 +5,7 @@ let score = 0;
 
 let isJumping = false;
 let isGameOver = false;
+let obstacles = [];
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchend', handleTouchEnd, false);
@@ -47,6 +48,7 @@ function moveObstacle(obstacle) {
     if (position < -50) {
       clearInterval(moveInterval);
       game.removeChild(obstacle);
+      obstacles = obstacles.filter(item => item !== obstacle);
       createObstacle();
     } else if (position > 0 && position < 10 && player.style.bottom === '0px') {
       score++;
@@ -73,6 +75,7 @@ function createObstacle() {
     obstacle.classList.add('obstacle');
     obstacle.style.left = '100%';
     game.appendChild(obstacle);
+    obstacles.push(obstacle);
     moveObstacle(obstacle);
   }
 }
@@ -80,6 +83,18 @@ function createObstacle() {
 function endGame() {
   isGameOver = true;
   alert('Game Over! Your score: ' + score);
+  resetGame();
+}
+
+function resetGame() {
+  isGameOver = false;
+  isJumping = false;
+  score = 0;
+  scoreDisplay.innerText = 'Score: 0';
+  obstacles.forEach(obstacle => game.removeChild(obstacle));
+  obstacles = [];
+  player.style.bottom = '0px';
+  createObstacle();
 }
 
 createObstacle();
