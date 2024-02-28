@@ -68,9 +68,9 @@ function moveObstacle(obstacle) {
     } else if (
       position <= 50 &&
       position >= 0 &&
+      player.style.bottom === '0px' &&
       obstacle.offsetLeft <= player.offsetLeft + player.offsetWidth &&
-      obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
-      player.style.bottom !== '0px'
+      obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft
     ) {
       clearInterval(moveInterval);
       endGame();
