@@ -48,14 +48,14 @@ function checkScore() {
     if (
       obstacle.offsetLeft <= player.offsetLeft &&
       obstacle.offsetLeft + obstacle.offsetWidth >= player.offsetLeft &&
-      player.style.bottom === '0px' &&
-      !isJumping
+      player.style.bottom === '0px'
     ) {
       score++;
       scoreDisplay.innerText = 'Score: ' + score;
     }
   });
 }
+
 
 function moveObstacle(obstacle) {
   let position = 100;
